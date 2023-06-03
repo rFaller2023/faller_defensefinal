@@ -23,5 +23,6 @@ public function insert()
     var_dump($this->conn->error);
 }
 }
-$r= new Anime();
-$r->table();
+// $r= new Anime();
+// $r->table();
+// $r->insert();
