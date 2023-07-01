@@ -1,7 +1,7 @@
 <?php
-include "students.php";
+include "anime.php";
 header("Content-type: application/json; charset=UTF-8");
 $new = new Students();
 $new->createTable();
-echo $new->delete($_GET);
+echo $new->delete($_POST);
 ?>

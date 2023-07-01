@@ -4,7 +4,7 @@ include "../database/database.php";
 
 class Students extends Db implements DbConnection
 {
-    public $TableName = "name_of_students";
+    public $TableName = "name_of_anime";
 
     public function createTable()
     {
@@ -13,10 +13,10 @@ class Students extends Db implements DbConnection
         $createtable = "CREATE TABLE IF NOT EXISTS $this->TableName
         (
         id int auto_increment primary key,
-        first_name varchar(255) not null,
-        last_name varchar(255) not null,
-        email varchar(255) not null,
-        course varchar(255)not null,
+        anime_title varchar(255) not null,
+        manga_authors varchar(255) not null,
+        genre varchar(255) not null,
+        bias varchar(255)not null,
         login varchar(10) not null default 0
         )";
 
@@ -34,12 +34,12 @@ class Students extends Db implements DbConnection
                 ]
                 );
         }
-        $first_name = $params['first_name'] ?? '';
-        $last_name = $params['last_name'] ?? '';
+        $animeTitle = $params['anime_title'] ?? '';
+        $manga_authors = $params['manga_authors'] ?? '';
         // $email = $params['email'] ?? '';
         // $course = $params['course'] ?? '';
 
-        $search = "SELECT * FROM $this->TableName where first_name like '%$first_name%'";
+        $search = "SELECT * FROM $this->TableName where anime_title like '%$animeTitle%'";
 
          $issearch = $this->conn->query($search); 
 
@@ -58,12 +58,12 @@ class Students extends Db implements DbConnection
     }
     public function getAll()
     {
-        $students = $this->conn->query("SELECT * FROM $this->TableName");
+        $anime = $this->conn->query("SELECT * FROM $this->TableName");
 
         
-        $studentsList = [];
+        $animeList = [];
         
-        return json_encode($students->fetch_all(MYSQLI_ASSOC));
+        return json_encode($anime->fetch_all(MYSQLI_ASSOC));
     }
     public function create($params)
     {
@@ -76,50 +76,50 @@ class Students extends Db implements DbConnection
                 ]
                 );
         }
-        if(!isset($params['first_name']) || empty($params['first_name']))
+        if(!isset($params['anime_title']) || empty($params['anime_title']))
         {
             return json_encode(
                 [
                     'code' => 404,
-                    'message' => "First_name is Required!"
+                    'message' => "Anime title is Required!"
                 ]
                 );
         }
-        if(!isset($params['last_name']) || empty($params['last_name']))
+        if(!isset($params['manga_authors']) || empty($params['manga_authors']))
         {
             return json_encode(
                 [
                     'code' => 404,
-                    'message' => "Last_name is Required!"
+                    'message' => "Manga author is Required!"
                 ]
                 );
         }
-        if(!isset($params['email']) || empty($params['email']))
+        if(!isset($params['genre']) || empty($params['genre']))
         {
             return json_encode(
                 [
                     'code' => 404,
-                    'message' => "Email is Required!"
+                    'message' => "Genre is Required!"
                 ]
                 );
         }
-        if(!isset($params['course']) || empty($params['course']))
+        if(!isset($params['bias']) || empty($params['bias']))
         {
             return json_encode(
                 [
                     'code' => 404,
-                    'message' => "Course is Required!"
+                    'message' => "Bias is Required!"
                 ]
                 );
         }
         
-        $first_name = $params['first_name'];
-        $last_name = $params['last_name'];
-        $email = $params['email'];
-        $course = $params['course'];
+        $anime_title = $params['anime_title'];
+        $manga_authors = $params['manga_authors'];
+        $genre = $params['genre'];
+        $bias = $params['bias'];
 
-        $insert = "INSERT INTO $this->TableName(first_name, last_name, email, course)
-        VALUES('$first_name','$last_name','$email','$course')";
+        $insert = "INSERT INTO $this->TableName(anime_title, manga_authors, genre, bias)
+        VALUES('$anime_title','$manga_authors','$genre','$bias')";
 
         $isadded = $this->conn->query($insert);
 
@@ -161,7 +161,7 @@ class Students extends Db implements DbConnection
         {
             $response = [
                 "code" => 404,
-                "message" => "Student Not Found!"
+                "message" => "Anime Not Found!"
             ];
             return json_encode($response);
         }
@@ -178,39 +178,39 @@ class Students extends Db implements DbConnection
                 ]
                 );
         }
-        if(!isset($params['first_name']) || empty($params['first_name']))
+        if(!isset($params['anime_title']) || empty($params['anime_title']))
         {
             return json_encode(
                 [
                     'code' => 404,
-                    'message' => "First_name is Required!"
+                    'message' => "Anime title is Required!"
                 ]
                 );
         }
-        if(!isset($params['last_name']) || empty($params['last_name']))
+        if(!isset($params['manga_authors']) || empty($params['manga_authors']))
         {
             return json_encode(
                 [
                     'code' => 404,
-                    'message' => "Last_name is Required!"
+                    'message' => "Mangga author is Required!"
                 ]
                 );
         }
-        if(!isset($params['email']) || empty($params['email']))
+        if(!isset($params['genre']) || empty($params['genre']))
         {
             return json_encode(
                 [
                     'code' => 404,
-                    'message' => "Email is Required!"
+                    'message' => "Genre is Required!"
                 ]
                 );
         }
-        if(!isset($params['course']) || empty($params['course']))
+        if(!isset($params['bias']) || empty($params['bias']))
         {
             return json_encode(
                 [
                     'code' => 404,
-                    'message' => "Course is Required!"
+                    'message' => "Bias is Required!"
                 ]
                 );
         }
@@ -224,13 +224,13 @@ class Students extends Db implements DbConnection
                 );
         }
         $id = $params['id'];
-        $first_name = $params['first_name'];
-        $last_name = $params['last_name'];
-        $email = $params['email'];
-        $course = $params['course'];
+        $anime_title = $params['anime_title'];
+        $manga_authors = $params['manga_authors'];
+        $genre = $params['genre'];
+        $bias = $params['biass'];
 
         $update = "UPDATE $this->TableName 
-        SET first_name = '$first_name', last_name = '$last_name', email = '$email', course = '$course' 
+        SET anime_title = '$anime_title', manga_authors = '$manga_authors', email = '$genre', course = '$bias' 
         where id='$id'";
 
          $isupdated = $this->conn->query($update);
@@ -240,7 +240,7 @@ class Students extends Db implements DbConnection
             return json_encode(
                 [
                     "code" => 101,
-                    "message" => "Student Successfully Updated!"
+                    "message" => "Anime_title Successfully Updated!"
                 ]
                 );
         }else{
@@ -285,7 +285,7 @@ class Students extends Db implements DbConnection
             return json_encode(
                 [
                     "code" => 101,
-                    "message" => "Student Successfully Deleted!"
+                    "message" => "Anime_tiltle Successfully Deleted!"
                 ]
                 );
         }else{

@@ -4,7 +4,7 @@ include "../database/database.php";
 
 class Students extends Db implements DbConnection
 {
-    public $TableName = "name_of_students";
+    public $TableName = "name_of_reader";
 
     public function createTable()
     {
@@ -13,9 +13,9 @@ class Students extends Db implements DbConnection
         $createtable = "CREATE TABLE IF NOT EXISTS $this->TableName
         (
         id int auto_increment primary key,
-        anime_title varchar(255) not null,
-        genre varchar(255) not null,
-        published varchar(255) not null,
+        first_name varchar(255) not null,
+        last_name varchar(255) not null,
+        email varchar(255) not null,
         login varchar(10) not null default 0
         )";
 
@@ -57,12 +57,12 @@ class Students extends Db implements DbConnection
     }
     public function getAll()
     {
-        $students = $this->conn->query("SELECT * FROM $this->TableName");
+        $anime = $this->conn->query("SELECT * FROM $this->TableName");
 
         
-        $studentsList = [];
+        $animeList = [];
         
-        return json_encode($students->fetch_all(MYSQLI_ASSOC));
+        return json_encode($anime->fetch_all(MYSQLI_ASSOC));
     }
     public function create($params)
     {
@@ -102,23 +102,23 @@ class Students extends Db implements DbConnection
                 ]
                 );
         }
-        if(!isset($params['course']) || empty($params['course']))
-        {
-            return json_encode(
-                [
-                    'code' => 404,
-                    'message' => "Course is Required!"
-                ]
-                );
-        }
+        // if(!isset($params['course']) || empty($params['course']))
+        // {
+        //     return json_encode(
+        //         [
+        //             'code' => 404,
+        //             'message' => "Course is Required!"
+        //         ]
+        //         );
+        // }
         
         $first_name = $params['first_name'];
         $last_name = $params['last_name'];
         $email = $params['email'];
-        $course = $params['course'];
+        // $course = $params['course'];
 
-        $insert = "INSERT INTO $this->TableName(first_name, last_name, email, course)
-        VALUES('$first_name','$last_name','$email','$course')";
+        $insert = "INSERT INTO $this->TableName(first_name, last_name, email)
+        VALUES('$first_name','$last_name','$email')";
 
         $isadded = $this->conn->query($insert);
 
@@ -160,7 +160,7 @@ class Students extends Db implements DbConnection
         {
             $response = [
                 "code" => 404,
-                "message" => "Student Not Found!"
+                "message" => "Anime Not Found!"
             ];
             return json_encode($response);
         }
@@ -204,15 +204,15 @@ class Students extends Db implements DbConnection
                 ]
                 );
         }
-        if(!isset($params['course']) || empty($params['course']))
-        {
-            return json_encode(
-                [
-                    'code' => 404,
-                    'message' => "Course is Required!"
-                ]
-                );
-        }
+        // if(!isset($params['course']) || empty($params['course']))
+        // {
+        //     return json_encode(
+        //         [
+        //             'code' => 404,
+        //             'message' => "Course is Required!"
+        //         ]
+        //         );
+        // }
         if(!isset($params['id']) || empty($params['id']))
         {
             return json_encode(
@@ -226,10 +226,10 @@ class Students extends Db implements DbConnection
         $first_name = $params['first_name'];
         $last_name = $params['last_name'];
         $email = $params['email'];
-        $course = $params['course'];
+        // $course = $params['course'];
 
         $update = "UPDATE $this->TableName 
-        SET first_name = '$first_name', last_name = '$last_name', email = '$email', course = '$course' 
+        SET first_name = '$first_name', last_name = '$last_name', email = '$email'
         where id='$id'";
 
          $isupdated = $this->conn->query($update);
@@ -239,7 +239,7 @@ class Students extends Db implements DbConnection
             return json_encode(
                 [
                     "code" => 101,
-                    "message" => "Student Successfully Updated!"
+                    "message" => " Anime Successfully Updated!"
                 ]
                 );
         }else{
@@ -284,7 +284,7 @@ class Students extends Db implements DbConnection
             return json_encode(
                 [
                     "code" => 101,
-                    "message" => "Student Successfully Deleted!"
+                    "message" => "Anime Successfully Deleted!"
                 ]
                 );
         }else{
