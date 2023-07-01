@@ -16,6 +16,7 @@ class Students extends Db implements DbConnection
         first_name varchar(255) not null,
         last_name varchar(255) not null,
         email varchar(255) not null,
+        comments varchar(255) not null
         login varchar(10) not null default 0
         )";
 
@@ -115,10 +116,10 @@ class Students extends Db implements DbConnection
         $first_name = $params['first_name'];
         $last_name = $params['last_name'];
         $email = $params['email'];
-        // $course = $params['course'];
+        $comments = $params['comments'];
 
-        $insert = "INSERT INTO $this->TableName(first_name, last_name, email)
-        VALUES('$first_name','$last_name','$email')";
+        $insert = "INSERT INTO $this->TableName(first_name, last_name, email, comments)
+        VALUES('$first_name','$last_name','$email', '$comments')";
 
         $isadded = $this->conn->query($insert);
 
@@ -204,15 +205,15 @@ class Students extends Db implements DbConnection
                 ]
                 );
         }
-        // if(!isset($params['course']) || empty($params['course']))
-        // {
-        //     return json_encode(
-        //         [
-        //             'code' => 404,
-        //             'message' => "Course is Required!"
-        //         ]
-        //         );
-        // }
+        if(!isset($params['comments']) || empty($params['comments']))
+        {
+            return json_encode(
+                [
+                    'code' => 404,
+                    'message' => "Comments is Required!"
+                ]
+                );
+        }
         if(!isset($params['id']) || empty($params['id']))
         {
             return json_encode(
@@ -226,10 +227,10 @@ class Students extends Db implements DbConnection
         $first_name = $params['first_name'];
         $last_name = $params['last_name'];
         $email = $params['email'];
-        // $course = $params['course'];
+        $comments = $params['comments'];
 
         $update = "UPDATE $this->TableName 
-        SET first_name = '$first_name', last_name = '$last_name', email = '$email'
+        SET first_name = '$first_name', last_name = '$last_name', email = '$email', comments = '$comments'
         where id='$id'";
 
          $isupdated = $this->conn->query($update);
