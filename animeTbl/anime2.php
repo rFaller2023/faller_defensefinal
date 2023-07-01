@@ -67,12 +67,12 @@ class Students extends Db implements DbConnection
     }
     public function create($params)
     {
-        if($_SERVER['REQUEST_METHOD'] != 'GET')
+        if($_SERVER['REQUEST_METHOD'] != 'POST')
         {
             return json_encode(
                 [
                     "code" => 404,
-                    "message" => "GET method is only allowed!"
+                    "message" => "POST method is only allowed!"
                 ]
                 );
         }
@@ -169,12 +169,12 @@ class Students extends Db implements DbConnection
     }
     public function update($params)
     {
-        if($_SERVER['REQUEST_METHOD'] != 'GET')
+        if($_SERVER['REQUEST_METHOD'] != 'POST')
         {
             return json_encode(
                 [
                     "code" => 404,
-                    "message" => "GET method is only allowed!"
+                    "message" => "POST method is only allowed!"
                 ]
                 );
         }
